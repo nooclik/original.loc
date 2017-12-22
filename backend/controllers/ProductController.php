@@ -252,6 +252,7 @@ class ProductController extends Controller
             die($err);
         }
 
+
         $objPHPExcel->setActiveSheetIndex(0);
 
         $objWorksheet = $objPHPExcel->getActiveSheet();
