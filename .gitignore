@@ -34,7 +34,7 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 
-#images
+#images dir
 frontend/web/uploads/
 
 TEMP/
