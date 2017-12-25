@@ -7,7 +7,6 @@
  отредактировано
  */
 use yii\helpers\Html;
-use yii\helpers;
 use common\models\Product;
 use yii\helpers\Url;
 
@@ -17,7 +16,7 @@ use yii\helpers\Url;
         <?php
         if (isset($item->product)):
             foreach ($item->product as $product): ?>
-                <article class="col-md-3 item">
+                <article class="col-xs-12 col-sm-12 col-md-3 item">
                     <div class="image-container">
                         <?= Html::img(Product::getImage($product->image)) ?>
                     </div>
@@ -28,7 +27,7 @@ use yii\helpers\Url;
             <?php endforeach; ?>
             <?php
         else :?>
-            <article class="col-md-3 item">
+            <article class="col-xs-12 col-sm-12 col-md-3 item">
             <div class="image-container">
                 <?= Html::img(Product::getImage($item->image)) ?>
             </div>
