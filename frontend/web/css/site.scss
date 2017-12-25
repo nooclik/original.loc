@@ -1,4 +1,5 @@
 $link-color: #946889;
+$block_background: #337ab7;
 $tooltip_background: #337ab7;
 
 @mixin link {
@@ -170,9 +171,8 @@ a.desc:after {
       @include link;
     }
   }
-}
+}//Items page
 
-//Items page
 
 #brands { //Brand page
   ul {
@@ -186,14 +186,28 @@ a.desc:after {
       text-decoration: none
     }
   }
-}
+}//Brand page
 
-//Brand page
 
-#filter {
+
+#filter { //Filter
+  border: 1px solid #dadada;
+  padding: 5px;
+  margin-top: 5px;
   div {
     display: grid;
   }
+  h3 {
+    margin: 0px 0px 10px 0px;
+    background-color: $block_background;
+    padding: 3px;
+    color: #fff;
+    .clear_filter {float: right;}
+    a {color: inherit;
+      &:hover {text-decoration: none;}
+    }
+  }
+  .btn {border-radius: 0px;}
 }
 
 #product { //Product page

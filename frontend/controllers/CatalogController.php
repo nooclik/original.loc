@@ -28,14 +28,14 @@ class CatalogController extends Controller
             ->bindValue(':id', $this->findCategoryBySlug($slug))->queryAll();
 
         if ($post = Yii::$app->request->post()) {
-            $items = Product::find()->where(['brand_id' => $post['brand']])->all();
-            /*$items = Yii::$app->db->createCommand('SELECT * FROM product p WHERE  p.brand_id IN (:list)')
-                ->bindValue(':list', implode(', ', $post['brand']))->queryAll();
-            */
+            $items = Product::find()->joinWith('productCategory')
+                ->where(['category_id' => $this->findCategoryBySlug($slug)])
+                ->andWhere(['brand_id' => $post['brand']])
+                ->all();
+
             $check_brand = $post['brand'];
         }
-
-        return $this->render('category', compact('items', 'brands', 'check_brand'));
+        return $this->render('category', compact('items', 'brands', 'check_brand', 'slug'));
     }
 
     public function actionProduct($slug)

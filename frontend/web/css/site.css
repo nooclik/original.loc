@@ -131,8 +131,25 @@ a.desc:after {
 #brands a:hover {
   text-decoration: none; }
 
+#filter {
+  border: 1px solid #dadada;
+  padding: 5px;
+  margin-top: 5px; }
 #filter div {
   display: grid; }
+#filter h3 {
+  margin: 0px 0px 10px 0px;
+  background-color: #337ab7;
+  padding: 3px;
+  color: #fff; }
+#filter h3 .clear_filter {
+  float: right; }
+#filter h3 a {
+  color: inherit; }
+#filter h3 a:hover {
+  text-decoration: none; }
+#filter .btn {
+  border-radius: 0px; }
 
 #product a {
   text-decoration: none;
