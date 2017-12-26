@@ -114,7 +114,7 @@ $variations = Product::loadVariation($model->id);
                                 <td><?= Html::encode($variation['sku']) ?></td>
                                 <td><?= Html::encode($variation['quantity']) ?></td>
                                 <td class="price"><?= Html::encode($variation['price']) ?></td>
-                                <td><?= Html::a('<i class="glyphicon-shopping-cart" aria-hidden="true"></i> Заказать', '#' ,['class' => 'btn']) ?></td>
+                                <td><?= Html::a('<i class="glyphicon-shopping-cart" aria-hidden="true"></i> Заказать', Url::toRoute(['order/order', 'product_id' => $model->id, 'variation_id' => $variation['id']]) ,['class' => 'btn']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>

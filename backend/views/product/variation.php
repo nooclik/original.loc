@@ -57,7 +57,7 @@ $formVariation = ActiveForm::begin(['options' => ['data-pjax' => true, 'enctype'
                 <?php if ($productVariations) : ?>
                     <?php foreach ($productVariations as $variation): ?>
                         <tr>
-                            <td><div class="thumbnail"><?= $variation->image ? Html::img(Yii::getAlias("@images").'/'.$variation->image) : Html::img(Yii::getAlias("@images").'/no_image.gif') ?></div></td>
+                            <td><div class="thumbnail"><?= $variation->image ? Html::img(\common\models\Product::getImage($variation->image)) : Html::img(Yii::getAlias("@images").'/no_image.gif') ?></div></td>
                             <td><?= $variation->name->name ?></td>
                             <td><?= $variation->price ?></td>
                             <td><?= $variation->quantity ?></td>

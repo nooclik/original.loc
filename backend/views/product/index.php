@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'image',
                     'value' => function ($model) {
-                        return $model->image ? Yii::getAlias("@images") . '/' . $model->image : Yii::getAlias("@images") . '/no_image.gif';
+                        return $model->image ? \common\models\Product::getImage($model->image) : Yii::getAlias("@images") . '/no_image.gif';
                     },
                     'format' => 'image',
                     'contentOptions' => ['class' => 'icon'],

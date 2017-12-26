@@ -195,10 +195,13 @@ a.desc:after {
   flex-flow: row wrap;
   cursor: pointer;
   text-align: center;
-  img {
-    @include zoom;
-    max-width: 100%;
-    height: 220px;
+  .image-container {
+    overflow: hidden;
+    img {
+      @include zoom;
+      max-width: 100%;
+      height: 220px;
+    }
   }
   a {
     @include link;
@@ -242,7 +245,6 @@ a.desc:after {
     width: 23.9%;
   }
 }
-
 
 //Items page
 
@@ -300,6 +302,7 @@ a.desc:after {
   label {
     cursor: pointer;
     font-weight: normal;
+    padding: 0px 0px 5px 0px;
   }
 }
 
@@ -341,5 +344,12 @@ a.desc:after {
 
 //Product page
 
+#order { //Order page
+  .price {@extend .price}
+  #quantity{width: 60px;}
+  table {font-size: 16px;}
+}
+
+//Order page
 
 

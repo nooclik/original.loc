@@ -58,7 +58,7 @@ use yii\helpers\Url;
             <?= $form->field($model, 'quantity')->textInput(['type' => 'number', 'min' => 0, 'placeholder' => 'Количество товара в наличии']) ?>
             <?php if ($model->image) : ?>
                 <div class="thumbnail">
-                    <?= Html::img(Yii::getAlias("@images") . '/' . $model->image) ?>
+                    <?= Html::img(\common\models\Product::getImage($model->image)) ?>
                 </div>
             <?php endif; ?>
             <?=

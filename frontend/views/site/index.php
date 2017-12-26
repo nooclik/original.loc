@@ -5,21 +5,21 @@ use common\models\Carousel as Slider;
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Оригинал - и только';
 ?>
 <div class="jumbotron">
-            <?php
-            if (!empty(Slider::getSlides())) {
-                Slider::$height = '350px';
-                Slider::$width = '100%';
-                echo Carousel::widget([
-                    'items' => Slider::getSlides(),
-                    'options' => [
-                        'style' => 'width:100%;' // Задаем ширину контейнера
-                    ],
-                ]);
-            }
-            ?>
+    <?php
+    if (!empty(Slider::getSlides())) {
+        Slider::$height = '420px';
+        Slider::$width = '100%';
+        echo Carousel::widget([
+            'items' => Slider::getSlides(),
+            'options' => [
+                'style' => 'width:100%;' // Задаем ширину контейнера
+            ],
+        ]);
+    }
+    ?>
 </div>
 <div class="container">
     <?php
@@ -34,18 +34,13 @@ $this->title = 'My Yii Application';
         ]
     ); ?>
 </div>
-
 <div class="container">
-    <div class="row">
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
-        <div class="col-md-3 col-sm-1"><img src="/frontend/web/uploads/images/1512916882.jpg" width="250px  " alt=""></div>
+    <div class="block_title">
+        <h3>Новинки товара</h3>
     </div>
+
+    <?php $items = Product::find()->orderBy(['date_publish' => SORT_DESC])->limit(8)->all(); ?>
+    <?= $this->render('/catalog/_items', compact('items')) ?>
 </div>
 
 

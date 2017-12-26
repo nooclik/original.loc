@@ -32,7 +32,6 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Товары', 'icon' => 'shopping-cart', 'url' => ['/product']],
                     ['label' => 'Категории', 'icon' => 'sitemap', 'url' => ['/category']],
                     [
@@ -49,6 +48,7 @@
                         'items' =>
                             [
                                 ['label' => 'Слайд', 'url' => ['setting/carousel'], 'icon' => 'picture-o'],
+                                ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                             ],
                     ],
 
