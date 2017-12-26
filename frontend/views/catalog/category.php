@@ -17,7 +17,7 @@ Pjax::begin();
             <?= Html::beginForm(Url::toRoute(['catalog/category', 'slug' => $slug]), 'post', ['data-pjax' => '', 'class' => 'form-inline']) ?>
             <h3>Брэнд
                 <?php if ($check_brand) : ?>
-                    <span class="clear_filter"><?= Html::a('x', Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')])) ?></span>
+                    <span class="clear_filter" data-toggle="tooltip" data-placement="right" title="Сбросить фильтр"><?= Html::a('<i class="fa fa-times" aria-hidden="true"></i>', Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')])) ?></span>
                 <?php endif; ?>
             </h3>
             <?= Html::checkboxList('brand', $check_brand, \yii\helpers\ArrayHelper::map($brands, 'id', 'name')); ?>
@@ -36,9 +36,12 @@ Pjax::begin();
 $this->registerJS('
 $(document).on("pjax:send", function() {
   
-})
+});
 $(document).on("pjax:complete", function() {
   
+});
+$(function () {
+  $(\'[data-toggle="tooltip"]\').tooltip()
 })
 ');
 

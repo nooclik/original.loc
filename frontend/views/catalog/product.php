@@ -10,8 +10,8 @@ use common\models\Product;
 use yii\helpers\Url;
 
 $this->title = 'Товар';
-$this->params['breadcrumbs'][] = ['label' => $model->categoryName, 'url' => \yii\helpers\Url::to(['catalog/category'])];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => $model->categoryName, 'url' => \yii\helpers\Url::to(['catalog/category', 'slug' => $model->categorys->slug])];
+$this->params['breadcrumbs'][] = $model->name;
 $attributes = Product::loadAttribute($model->id);
 $variations = Product::loadVariation($model->id);
 ?>
@@ -113,8 +113,8 @@ $variations = Product::loadVariation($model->id);
                                 <td><?= Html::encode($variation['name']) ?></td>
                                 <td><?= Html::encode($variation['sku']) ?></td>
                                 <td><?= Html::encode($variation['quantity']) ?></td>
-                                <td><?= Html::encode($variation['price']) ?></td>
-                                <td><?= Html::button('<i class="fa fa-shopping-cart" aria-hidden="true"></i> Заказать', ['class' => 'btn btn-info']) ?></td>
+                                <td class="price"><?= Html::encode($variation['price']) ?></td>
+                                <td><?= Html::a('<i class="glyphicon-shopping-cart" aria-hidden="true"></i> Заказать', '#' ,['class' => 'btn']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
@@ -123,6 +123,5 @@ $variations = Product::loadVariation($model->id);
             </div>
         </div>
     <?php endif; ?>
-
 </div>
 

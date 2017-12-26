@@ -4,7 +4,7 @@
  * User: админ
  * Date: 15.12.2017
  * Time: 21:39
- отредактировано
+ * отредактировано
  */
 use yii\helpers\Html;
 use common\models\Product;
@@ -28,12 +28,12 @@ use yii\helpers\Url;
             <?php
         else :?>
             <article class="col-xs-12 col-sm-12 col-md-3 item">
-            <div class="image-container">
-                <?= Html::img(Product::getImage($item->image)) ?>
-            </div>
-            <div class="name-container">
-                <?= Html::a($item->name, Url::to(['catalog/product', 'slug' => $item->slug])) ?>
-            </div>
+                <div class="image-container">
+                    <?= Html::img(Product::getImage($item->image)) ?>
+                </div>
+                <div class="name-container">
+                    <?= Html::a($item->name, Url::to(['catalog/product', 'slug' => $item->slug])) ?>
+                </div>
             </article>
         <? endif;
     endforeach; ?>
