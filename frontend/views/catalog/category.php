@@ -11,22 +11,13 @@ use yii\widgets\Pjax;
 
 $this->title = 'Категория';
 Pjax::begin();
+$filter_title = 'Брэнд';
+$filter_rout = 'catalog/category';
+$filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')])
 ?>
     <div class="row">
-        <aside class="col-md-2" id="filter">
-            <?= Html::beginForm(Url::toRoute(['catalog/category', 'slug' => $slug]), 'post', ['data-pjax' => '', 'class' => 'form-inline']) ?>
-            <h3>Брэнд
-                <?php if ($check_brand) : ?>
-                    <span class="clear_filter" data-toggle="tooltip" data-placement="right" title="Сбросить фильтр"><?= Html::a('<i class="fa fa-times" aria-hidden="true"></i>', Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')])) ?></span>
-                <?php endif; ?>
-            </h3>
-            <?= Html::checkboxList('brand', $check_brand, \yii\helpers\ArrayHelper::map($brands, 'id', 'name')); ?>
+        <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url')) ?>
 
-            <div class="form-group">
-                <?= Html::submitButton('Отобрать', ['class' => 'btn btn-sm btn-primary']) ?>
-            </div>
-            <?= Html::endForm() ?>
-        </aside>
         <div class="col-md-10">
             <?= $this->render('_items', compact('items')); ?>
         </div>

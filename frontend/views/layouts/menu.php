@@ -7,7 +7,7 @@ use yii\helpers\Url;
 
 
 NavBar::begin([
-    'brandLabel' => 'My Company',
+    'brandLabel' => Yii::$app->name,
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
@@ -20,6 +20,7 @@ $menuItems = [
     ['label' => 'Женские', 'url' => Url::to(['catalog/category', 'slug' => 'zhenskiye'])],
     ['label' => 'Унисекс', 'url' => Url::to(['catalog/category', 'slug' => 'uniseks'])],
     ['label' => 'Бренд', 'url' => Url::to(['catalog/brands'])],
+    ['label' => 'Селектив', 'url' => Url::to(['catalog/selective'])],
 
 ];
 if (Yii::$app->user->isGuest) {

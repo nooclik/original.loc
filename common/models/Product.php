@@ -21,6 +21,7 @@ use yii\web\UploadedFile;
  * @property string $price
  * @property integer $quantity
  * @property string $image
+ * @property integer $selective
  * @property integer $stock_status_id
  * @property string $date_publish
  * @property string $date_update
@@ -72,7 +73,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['brand_id', 'quantity', 'stock_status_id', 'category'], 'integer'],
+            [['brand_id', 'quantity', 'stock_status_id', 'category', 'selective'], 'integer'],
             [['price'], 'number'],
             [['date_publish', 'date_update', 'active'], 'safe'],
             [['slug', 'name'], 'string', 'max' => 100],
@@ -98,6 +99,7 @@ class Product extends \yii\db\ActiveRecord
             'price' => 'Цена',
             'quantity' => 'Количество',
             'image' => 'Изображение',
+            'selective' => 'Селективный',
             'stock_status_id' => 'Наличие',
             'category' => 'Категория',
             'date_publish' => 'Создано',

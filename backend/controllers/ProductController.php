@@ -111,6 +111,7 @@ class ProductController extends Controller
         $variations = ArrayHelper::map(Variation::find()->select('id, name')->asArray()->all(), 'id', 'name');
 
         $model->category = Product::GetCategoryId($model->id);
+        $model->selective = $model->selective;
         $model->tags = unserialize($model->tags);
         $meta = unserialize($model->meta);
         $model->meta_tag_title = $meta['meta_tag_title'];

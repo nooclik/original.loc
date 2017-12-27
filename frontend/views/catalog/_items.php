@@ -11,6 +11,7 @@ use common\models\Product;
 use yii\helpers\Url;
 
 ?>
+
 <section class="row" id="items">
     <?php foreach ($items as $item) : ?>
         <?php

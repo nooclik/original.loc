@@ -88,6 +88,17 @@ a.desc:after {
 :before {
   font-family: 'Glyphicons Halflings'; }
 
+.block_title {
+  color: #4a0d66; }
+
+.all_product {
+  font-size: 14px;
+  color: grey;
+  border-bottom: 1px dotted; }
+.all_product:hover {
+  text-decoration: none;
+  color: #c3002f; }
+
 .navbar {
   background-color: #4a0d66; }
 .navbar .navbar-nav li > a {

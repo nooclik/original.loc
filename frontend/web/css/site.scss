@@ -1,6 +1,7 @@
 $link-color: #333;
 $block_background: #4a0d66;
 $tooltip_background: #337ab7;
+$link-hover-color: #c3002f;
 
 @mixin link {
   text-decoration: none;
@@ -21,7 +22,7 @@ $tooltip_background: #337ab7;
 }
 
 @mixin btn {
-  background-color: #c3002f;
+  background-color: $link-hover-color;
   border-color: #b1002b;
   text-transform: uppercase;
   transition: 1s;
@@ -162,6 +163,18 @@ a.desc:after {
   font-family: 'Glyphicons Halflings';
 }
 
+.block_title {color: #4a0d66}
+
+.all_product {
+  font-size: 14px;
+  color: grey;
+  border-bottom: 1px dotted;
+  &:hover {
+    text-decoration: none;
+    color: $link-hover-color;
+  }
+}
+
 .navbar { //Header style
   background-color: $block_background;
   .navbar-nav li > a {
@@ -177,7 +190,7 @@ a.desc:after {
   }
   li.active {
     @include link;
-    color: #c3002f
+    color: $link-hover-color;
   }
 }
 
@@ -345,9 +358,15 @@ a.desc:after {
 //Product page
 
 #order { //Order page
-  .price {@extend .price}
-  #quantity{width: 60px;}
-  table {font-size: 16px;}
+  .price {
+    @extend .price
+  }
+  #quantity {
+    width: 60px;
+  }
+  table {
+    font-size: 16px;
+  }
 }
 
 //Order page

@@ -2,6 +2,8 @@
 use yii\bootstrap\Carousel;
 use common\models\Product;
 use common\models\Carousel as Slider;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 
@@ -22,8 +24,11 @@ $this->title = 'Оригинал - и только';
     ?>
 </div>
 <div class="container">
+    <div class="block_title">
+        <h3>Селективная парфюмерия <?= Html::a('смотреть все', Url::to(['catalog/selective']), ['class' => 'all_product']) ?></h3>
+    </div>
     <?php
-    $model = Product::find()->select('image, name, slug')->all();
+    $model = Product::find()->select('image, name, slug')->where(['selective' => 1])->all();
     echo \frontend\widgets\slick\SlickWidget::widget(
         [
             'items' => $model,

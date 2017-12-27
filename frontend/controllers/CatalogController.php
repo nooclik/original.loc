@@ -13,29 +13,37 @@ use common\models\Category;
 use common\models\Product;
 use common\models\ProductCategory;
 use common\models\Brand;
-use yii\db\Query;
 use yii\web\Controller;
-use yii\helpers\Html;
 use Yii;
+use yii\data\Pagination;
 
 class CatalogController extends Controller
 {
     public function actionCategory($slug)
     {
         $items = ProductCategory::find()->with('product')->where(['category_id' => $this->findCategoryBySlug($slug)])->all();
-        $brands = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name FROM product p LEFT JOIN brand b ON p.brand_id = b.id WHERE p.id IN 
+        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name FROM product p LEFT JOIN brand b ON p.brand_id = b.id WHERE p.id IN 
                                           (SELECT DISTINCT pc.product_id FROM product_category pc WHERE pc.category_id = :id) ORDER BY b.name')
             ->bindValue(':id', $this->findCategoryBySlug($slug))->queryAll();
 
         if ($post = Yii::$app->request->post()) {
             $items = Product::find()->joinWith('productCategory')
                 ->where(['category_id' => $this->findCategoryBySlug($slug)])
-                ->andWhere(['brand_id' => $post['brand']])
+                ->andWhere(['brand_id' => $post['filter_value']])
                 ->all();
 
-            $check_brand = $post['brand'];
+            $check_filter_value = $post['filter_value'];
         }
-        return $this->render('category', compact('items', 'brands', 'check_brand', 'slug'));
+
+        /*$pagination = new Pagination(
+            [
+                'defaultPageSize' => 12,
+                'totalCount' => $items->count()
+            ]
+        );
+        $items = $items->offset ($pagination->offset)->limit($pagination->limit)->all();*/
+
+        return $this->render('category', compact('items', 'filter_value', 'check_filter_value', 'slug'));
     }
 
     public function actionProduct($slug)
@@ -48,6 +56,18 @@ class CatalogController extends Controller
 
         $model = Product::find()->select('product.brand_id, brand.name, brand.image, brand.description, brand.slug')->distinct()->joinWith('brand')->all();
         return $this->render('brands', compact('model'));
+    }
+
+    public function actionSelective ()
+    {
+        $items = Product::find()->where(['selective' => 1])->all();
+        $filter_value = Category::find()->select('id, name')->all();
+
+        if ($post = Yii::$app->request->post()) {
+            $items = ProductCategory::find()->joinWith('product')->where(['category_id' => $post['filter_value'], 'product.selective' => 1])->all();
+            $check_filter_value = $post['filter_value'];
+        }
+        return $this->render('selective', compact('items', 'filter_value', 'check_filter_value'));
     }
 
     public function actionBrand($slug) {

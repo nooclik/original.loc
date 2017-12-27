@@ -37,7 +37,7 @@ use yii\helpers\Url;
                     'allowClear' => true,
                 ],
             ]) ?>
-
+            <?= $form->field($model, 'selective')->checkbox() ?>
             <?= $form->field($model, 'sku')->textInput(['maxlength' => true, 'placeholder' => 'Артикул товара']) ?>
             <?= $form->field($model, 'tags')->widget(Select2::classname(), [
                 //'data' => $data,
