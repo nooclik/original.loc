@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $product_id
- * @property string $category_id
+ * @property integer $category_id
  */
 class ProductCategory extends \yii\db\ActiveRecord
 {

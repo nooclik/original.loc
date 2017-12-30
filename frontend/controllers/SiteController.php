@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Product;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -72,8 +73,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $indexArray = Yii::$app->db->createCommand('SELECT DISTINCT LEFT(name, 1) AS name FROM product')->queryColumn();
         $this->layout = 'home-page';
-        return $this->render('index');
+        return $this->render('index', compact('indexArray'));
     }
 
     /**

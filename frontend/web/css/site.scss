@@ -163,6 +163,8 @@ a.desc:after {
   font-family: 'Glyphicons Halflings';
 }
 
+a {cursor: pointer;}
+
 .block_title {color: #4a0d66}
 
 .all_product {
@@ -200,6 +202,11 @@ a.desc:after {
 
 .color-tooltip + .tooltip > .tooltip-arrow {
   border-right-color: $tooltip_background;
+}
+
+#index-array {
+  a {@include link;}
+  li {display: inline;}
 }
 
 .slick-slide { //Slyder style

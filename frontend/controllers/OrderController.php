@@ -24,7 +24,11 @@ class OrderController extends Controller
         $order->product_id = $product_id;
         $order->variation_id = $variation_id;
 
-
+        if ($post = Yii::$app->request->post()) {
+            $order->quantity = $post['quantity'];
+            $order->price = $model['price'];
+            $order->save();
+        }
 
         return $this->render('order', compact('model'));
     }

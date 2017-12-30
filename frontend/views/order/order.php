@@ -29,7 +29,10 @@ $this->title = 'Офорление заказа: ' . $model['product'];
                     </td>
                     <td class="price">
                         <?= $model['price'] ?>
-                        <?= Html::input('hidden', 'price', $model["price"]) ?>
+                        <?= Html::input('hidden', 'price', $model["price"], ['id' => 'price']) ?>
+                    </td>
+                    <td>
+                        <span id ="summ"><b><?= $model['price'] ?></b></span>
                     </td>
                     <td>
                         <?= Html::submitButton('Оформить', ['class' => 'btn']) ?>
@@ -39,3 +42,15 @@ $this->title = 'Офорление заказа: ' . $model['product'];
         </div>
     </div>
 <?= Html::endForm();
+
+$this->registerJS ("
+var price = $('#price').val();
+var summ;
+
+    $('#quantity').change(function (){
+        var quantity = $('#quantity').val();
+        summ = price * quantity;
+        $('#summ').text(Math.round((summ) * 100) / 100);
+    });
+
+");

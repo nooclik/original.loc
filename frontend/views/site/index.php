@@ -23,9 +23,11 @@ $this->title = 'Оригинал - и только';
     }
     ?>
 </div>
+
 <div class="container">
     <div class="block_title">
-        <h3>Селективная парфюмерия <?= Html::a('смотреть все', Url::to(['catalog/selective']), ['class' => 'all_product']) ?></h3>
+        <h3>Селективная
+            парфюмерия <?= Html::a('смотреть все', Url::to(['catalog/selective']), ['class' => 'all_product']) ?></h3>
     </div>
     <?php
     $model = Product::find()->select('image, name, slug')->where(['selective' => 1])->all();
@@ -39,13 +41,30 @@ $this->title = 'Оригинал - и только';
         ]
     ); ?>
 </div>
+
 <div class="container">
     <div class="block_title">
         <h3>Новинки товара</h3>
     </div>
-
     <?php $items = Product::find()->orderBy(['date_publish' => SORT_DESC])->limit(8)->all(); ?>
     <?= $this->render('/catalog/_items', compact('items')) ?>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block_title">
+                <h3>Алфавитный указатель</h3>
+            </div>
+            <div>
+                <ul id="index-array">
+                    <?php foreach ($indexArray as $index): ?>
+                        <li><?= Html::a($index) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 

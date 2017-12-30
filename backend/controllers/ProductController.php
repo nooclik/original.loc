@@ -243,7 +243,7 @@ class ProductController extends Controller
 
     public function actionImportProduct()
     {
-        $inputFile = 'uploads/price.xls';
+        $inputFile = 'uploads/full_price.xls';
 
         try {
             $inputTypeFile = \PHPExcel_IOFactory::identify($inputFile);
@@ -253,7 +253,6 @@ class ProductController extends Controller
             die($err);
         }
 
-
         $objPHPExcel->setActiveSheetIndex(0);
 
         $objWorksheet = $objPHPExcel->getActiveSheet();
@@ -261,10 +260,20 @@ class ProductController extends Controller
 
         for ($row = 2; ($row <= $highestRow); $row++) {
             if ($objWorksheet->getCell('H' . $row)->getValue() == 'В') {
-                continue;
+
+                $s_product = (int) $this->getProductIdByName(trim($objWorksheet->getCell('I' . $row)->getValue()));
+
+                $variation = new ProductVariation();
+                $variation->product_id = $s_product;
+                $variation->variation_id = (int) $this->getVariationIdByName($objWorksheet->getCell('J' . $row)->getValue());
+                $variation->sku = $objWorksheet->getCell('B' . $row)->getValue();
+                $variation->image = $objWorksheet->getCell('X' . $row)->getValue();
+                $variation->stock_status_id = 1;
+                $variation->update();
+
             } else {
                 $product = new Product();
-                $product->name = $objWorksheet->getCell('I' . $row)->getValue();
+                $product->name = trim($objWorksheet->getCell('I' . $row)->getValue());
                 $product->brand_id = (int)$this->getBrandIdByName($objWorksheet->getCell('G' . $row)->getValue());
                 $product->stock_status_id = 1;
                 $product->image = $objWorksheet->getCell('X' . $row)->getValue();
@@ -283,6 +292,39 @@ class ProductController extends Controller
                     $variation->image = $objWorksheet->getCell('X' . $row)->getValue();
                     $variation->stock_status_id = 1;
                 $variation->save();
+            }
+        }
+        return $this->render('import');
+    }
+
+    public function actionUpdateCategory () {
+        $inputFile = 'uploads/full_price.xls';
+
+        try {
+            $inputTypeFile = \PHPExcel_IOFactory::identify($inputFile);
+            $objReader = \PHPExcel_IOFactory::createReader($inputTypeFile);
+            $objPHPExcel = $objReader->load($inputFile);
+        } catch (Exception $err) {
+            die($err);
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objWorksheet = $objPHPExcel->getActiveSheet();
+        $highestRow = $objWorksheet->getHighestRow();
+
+        for ($row = 2; ($row <= $highestRow); $row++) {
+            if ($objWorksheet->getCell('H' . $row)->getValue() == 'В') {
+                continue;
+            } else {
+                $product_id = $this->getProductIdByName(trim($objWorksheet->getCell('I' . $row)->getValue()));
+
+                $category_id = ProductCategory::find()->where(['product_id' => $product_id])->one()->id;
+
+                $category = ProductCategory::findOne($category_id);
+
+                $category->category_id = $this->getCategory($objWorksheet->getCell('L' . $row)->getValue());
+                $category->save();
             }
         }
         return $this->render('import');

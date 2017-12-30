@@ -88,6 +88,9 @@ a.desc:after {
 :before {
   font-family: 'Glyphicons Halflings'; }
 
+a {
+  cursor: pointer; }
+
 .block_title {
   color: #4a0d66; }
 
@@ -131,6 +134,19 @@ a.desc:after {
 
 .color-tooltip + .tooltip > .tooltip-arrow {
   border-right-color: #337ab7; }
+
+#index-array a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-family: 'Montserrat', sans-serif;
+  color: #333; }
+#index-array a:hover {
+  color: #c3002f; }
+#index-array li {
+  display: inline; }
 
 .slick-slide {
   overflow: hidden;
