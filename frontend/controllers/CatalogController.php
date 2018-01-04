@@ -70,8 +70,13 @@ class CatalogController extends Controller
 
     public function actionBrand($slug) {
 
-        $items = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug)])->all();
-        return $this->render('brand', compact('items'));
+        $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug)]);
+
+        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => 12,]);
+        $items = $model->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('brand', compact('items', 'pages'));
     }
 
     protected function findModelProductBySlug($slug)
