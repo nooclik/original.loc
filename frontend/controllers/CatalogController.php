@@ -21,29 +21,27 @@ class CatalogController extends Controller
 {
     public function actionCategory($slug)
     {
-        $items = ProductCategory::find()->with('product')->where(['category_id' => $this->findCategoryBySlug($slug)])->all();
+        $model = ProductCategory::find()->with('product')->where(['category_id' => $this->findCategoryBySlug($slug)]);
         $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name FROM product p LEFT JOIN brand b ON p.brand_id = b.id WHERE p.id IN 
                                           (SELECT DISTINCT pc.product_id FROM product_category pc WHERE pc.category_id = :id) ORDER BY b.name')
             ->bindValue(':id', $this->findCategoryBySlug($slug))->queryAll();
 
         if ($post = Yii::$app->request->post()) {
-            $items = Product::find()->joinWith('productCategory')
+            $model = Product::find()->joinWith('productCategory')
                 ->where(['category_id' => $this->findCategoryBySlug($slug)])
                 ->andWhere(['brand_id' => $post['filter_value']])
-                ->all();
+                ;
 
             $check_filter_value = $post['filter_value'];
         }
 
-        /*$pagination = new Pagination(
-            [
-                'defaultPageSize' => 12,
-                'totalCount' => $items->count()
-            ]
-        );
-        $items = $items->offset ($pagination->offset)->limit($pagination->limit)->all();*/
+        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => 12,]);
 
-        return $this->render('category', compact('items', 'filter_value', 'check_filter_value', 'slug'));
+        $items = $model->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('category', compact('items', 'pages', 'filter_value', 'check_filter_value', 'slug'));
     }
 
     public function actionProduct($slug)

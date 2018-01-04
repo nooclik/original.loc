@@ -9,6 +9,7 @@
 use yii\helpers\Html;
 use common\models\Product;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 
 ?>
 
@@ -39,3 +40,11 @@ use yii\helpers\Url;
         <? endif;
     endforeach; ?>
 </section>
+
+<?php
+echo LinkPager::widget([
+    'pagination' => $pages,
+]);
+?>
+
+
