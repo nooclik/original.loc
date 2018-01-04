@@ -35,6 +35,6 @@ phpunit.phar
 /.vagrant
 
 #images dir
-frontend/web/uploads/
+frontend/web/uploads/images/product/
 
 TEMP/
