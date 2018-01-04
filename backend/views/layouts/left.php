@@ -47,6 +47,7 @@
                     ['label' => 'Настройки', 'url' => '#', 'icon' => 'wrench',
                         'items' =>
                             [
+                                ['label' => 'Основные', 'url' => ['setting/general-settings'], 'icon' => 'picture-o'],
                                 ['label' => 'Слайд', 'url' => ['setting/carousel'], 'icon' => 'picture-o'],
                                 ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                             ],

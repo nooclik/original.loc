@@ -29,10 +29,15 @@ class SettingController extends Controller
         return $this->render('carousel', compact('dataProvider', 'model'));
     }
 
-    public function actionDelete ($id) {
+    public function actionDeleteCarouselItem ($id) {
         Carousel::findOne($id)->delete();
-
         $this->redirect('carousel');
     }
+
+    public function actionGeneralSettings () {
+        return $this->render('general-settings');
+    }
+
+
 
 }
