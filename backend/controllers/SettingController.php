@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use common\models\Carousel;
 use Yii;
+Use common\models\Options;
 
 class SettingController extends Controller
 {
@@ -35,7 +36,20 @@ class SettingController extends Controller
     }
 
     public function actionGeneralSettings () {
-        return $this->render('general-settings');
+
+
+        if ($post = Yii::$app->request->post()) {
+            Options::updateAll(['option_value' => $post['show-price']], ['=', 'option_name', 'show_price']);
+            Options::updateAll(['option_value' => $post['type-filter']], ['=', 'option_name', 'filter_type']);
+            Options::updateAll(['option_value' => $post['count-page']], ['=', 'option_name', 'page_count']);
+        }
+
+        $showPrice = Options::ShowPrice();
+        $typeFilter = Options::FilterType();
+        $countPage = (int) Options::CountElementOnPage();
+        $types = Options::TYPE_FILTER;
+
+        return $this->render('general-settings', compact('showPrice', 'typeFilter', 'types', 'countPage'));
     }
 
 

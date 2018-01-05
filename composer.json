@@ -31,7 +31,8 @@
         "kartik-v/yii2-widget-fileinput": "@dev",
         "2amigos/yii2-transliterator-helper": "*",
         "zelenin/yii2-slug-behavior": "~1.5.1",
-        "phpoffice/phpexcel": "dev-develop"
+        "phpoffice/phpexcel": "dev-develop",
+        "wbraganca/yii2-multiselect": "~1.0.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

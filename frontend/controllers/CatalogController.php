@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 
 use common\models\Category;
+use common\models\Options;
 use common\models\Product;
 use common\models\ProductCategory;
 use common\models\Brand;
@@ -35,7 +36,7 @@ class CatalogController extends Controller
             $check_filter_value = $post['filter_value'];
         }
 
-        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => 12,]);
+        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => Options::CountElementOnPage()]);
 
         $items = $model->offset($pages->offset)
             ->limit($pages->limit)
