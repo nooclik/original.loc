@@ -10,19 +10,19 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $this->title = 'Категория';
-Pjax::begin();
+
 $filter_title = 'Брэнд';
 $filter_rout = 'catalog/category';
-$filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')])
+$filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')]);
+//Pjax::begin(['enablePushState' => false]);
 ?>
     <div class="row">
         <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url')) ?>
-
         <div class="col-md-10">
             <?= $this->render('_items', compact('items', 'pages')); ?>
         </div>
     </div>
-<?php Pjax::end();
+<?php //Pjax::end();
 
 $this->registerJS('
 $(document).on("pjax:send", function() {

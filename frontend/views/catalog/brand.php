@@ -7,10 +7,14 @@
  */
 
 use yii\widgets\Pjax;
-Pjax::begin();
+
+//Pjax::begin();
 ?>
-
-<?= $this->render ('_items', compact('items','pages')); ?>
-
+    <div class="row">
+            <?= $this->render('_filter', compact('filter_value')); ?>
+        <div class="col-md-10">
+            <?= $this->render('_items', compact('items', 'pages')); ?>
+        </div>
+    </div>
 <?php
-Pjax::end();
+//Pjax::end();
