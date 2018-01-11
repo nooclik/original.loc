@@ -17,7 +17,7 @@ $filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request-
 //Pjax::begin(['enablePushState' => false]);
 ?>
     <div class="row">
-        <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url')) ?>
+        <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url', 'sex')) ?>
         <div class="col-md-10">
             <?= $this->render('_items', compact('items', 'pages')); ?>
         </div>

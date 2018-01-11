@@ -41,7 +41,10 @@ use yii\bootstrap\Alert;
                 </article>
             <? endif;
         endforeach; ?>
-        <?php else : echo 'По Вашему запросу ничего не найдено'?>
+    <?php else : ?>
+        <div class="alert alert-info">
+            По вашему запросу ничего не найдено
+        </div>
     <?php endif; ?>
 </section>
 <?php if ($pages) : ?>

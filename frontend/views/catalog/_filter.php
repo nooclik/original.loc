@@ -9,6 +9,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
+$filter_title = Бренд;
 ?>
 
 <aside class="col-md-2" id="filter">
@@ -21,7 +22,7 @@ use yii\helpers\ArrayHelper;
     </h3>
     <ul>
         <?php foreach ($filter_value as $filter) : ?>
-            <li><?= Html::a($filter['name'], ['catalog/brand', 'slug' => $filter['slug']]) ?></li>
+            <li><?= Html::a($filter['name'], ['catalog/brand', 'slug' => $filter['slug'], 'sex' => $sex]) ?></li>
         <?php endforeach; ?>
     </ul>
     <!--

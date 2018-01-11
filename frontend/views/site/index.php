@@ -57,11 +57,13 @@ $this->title = 'Оригинал - и только';
                 <h3>Алфавитный указатель</h3>
             </div>
             <div>
-                <ul id="index-array">
-                    <?php foreach ($indexArray as $index): ?>
-                        <li><?= Html::a($index) ?></li>
-                    <?php endforeach; ?>
-                </ul>
+                <table id="index-array">
+                    <tr>
+                        <?php foreach ($indexArray as $index): ?>
+                            <td><?= Html::a($index, Url::toRoute(['catalog/brands', 'index' => $index])) ?></td>
+                        <?php endforeach; ?>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

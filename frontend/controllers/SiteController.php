@@ -73,7 +73,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $indexArray = Yii::$app->db->createCommand('SELECT DISTINCT LEFT(name, 1) AS name FROM product')->queryColumn();
+        $indexArray = Yii::$app->db->createCommand('SELECT DISTINCT LEFT(name, 1) AS name FROM product ORDER BY name')->queryColumn();
         $this->layout = 'home-page';
         return $this->render('index', compact('indexArray'));
     }

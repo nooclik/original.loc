@@ -25,6 +25,7 @@ class CatalogController extends Controller
         if ($post = Yii::$app->request->post()) {
             $filter = true;
         }
+        $sex = $this->findCategoryBySlug($slug);
 
         if ($filter) {
             $model = Product::find()->joinWith('productCategory')
@@ -48,7 +49,7 @@ class CatalogController extends Controller
             ->limit($pages->limit)
             ->all();
 
-        return $this->render('category', compact('items', 'pages', 'filter_value', 'check_filter_value', 'slug'));
+        return $this->render('category', compact('items', 'pages', 'filter_value', 'check_filter_value', 'slug', 'sex'));
     }
 
     public function actionProduct($slug)
@@ -59,8 +60,13 @@ class CatalogController extends Controller
 
     public function actionBrands (){
 
-        $model = Product::find()->select('product.brand_id, brand.name, brand.image, brand.description, brand.slug')->distinct()->joinWith('brand')->all();
-
+        if (!$index = Yii::$app->request->get('index')) {
+            $model = Product::find()->select('product.brand_id, brand.name, brand.image, brand.description, brand.slug')->distinct()->joinWith('brand')->all();
+        }
+        else {
+            $model = Product::find()->select('product.brand_id, brand.name, brand.image, brand.description, brand.slug')->distinct()
+                ->where(['like', 'brand.name', $index.'%', false])->joinWith('brand')->all();
+        }
         return $this->render('brands', compact('model'));
     }
 
@@ -78,16 +84,21 @@ class CatalogController extends Controller
 
     public function actionBrand($slug) {
 
-        $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug)]);
-
-        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id WHERE p.id IN 
-                                          (SELECT DISTINCT pc.product_id FROM product_category pc ) ORDER BY b.name')
+        if ($sex = Yii::$app->request->get('sex')) {
+            $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug), 'category_id' => $sex])->joinWith('productCategory');
+        }
+        else  {
+            $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug)]);
+        }
+        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, pc.category_id, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id LEFT JOIN product_category pc ON pc.product_id = p.id  WHERE p.id IN 
+                                          (SELECT DISTINCT pc.product_id FROM product_category pc) ORDER BY b.name')
             ->queryAll();
 
-        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => 12,]);
+        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => Options::CountElementOnPage(),]);
         $items = $model->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
+
         return $this->render('brand', compact('items', 'pages', 'filter_value'));
     }
 
