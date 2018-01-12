@@ -12,7 +12,7 @@ $this->title = 'Оригинал - и только';
 <div class="jumbotron">
     <?php
     if (!empty(Slider::getSlides())) {
-        Slider::$height = '420px';
+        Slider::$height = 'auto';
         Slider::$width = '100%';
         echo Carousel::widget([
             'items' => Slider::getSlides(),

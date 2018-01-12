@@ -215,9 +215,10 @@ a {
   color: #333; }
 #items .item a:hover {
   color: #c3002f; }
-#items .col-md-3 {
-  width: 23.9%; }
 
+@media (min-width: 992px) {
+  .col-md-3 {
+    width: 23.9%; } }
 #brands ul {
   list-style: none;
   column-count: 2; }

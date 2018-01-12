@@ -261,12 +261,14 @@ a {cursor: pointer;}
       @include link;
     }
   }
+}
+
+//Items page
+@media (min-width: 992px) {
   .col-md-3 {
     width: 23.9%;
   }
 }
-
-//Items page
 
 #brands { //Brand page
   ul {

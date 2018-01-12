@@ -20,7 +20,7 @@ use yii\bootstrap\Alert;
             <?php
             if (isset($item->product)):
                 foreach ($item->product as $product): ?>
-                    <article class="col-sm-6 col-md-3 item">
+                    <article class="col-xs-12 col-sm-12 col-md-3 item">
                         <div class="image-container">
                             <?= Html::img(Product::getImage($product->image)) ?>
                         </div>
@@ -31,7 +31,7 @@ use yii\bootstrap\Alert;
                 <?php endforeach; ?>
                 <?php
             else :?>
-                <article class="col-sm- col-md-3 item">
+                <article class="col-xs-12 col-sm-12 col-md-3 item">
                     <div class="image-container">
                         <?= Html::img(Product::getImage($item->image)) ?>
                     </div>
