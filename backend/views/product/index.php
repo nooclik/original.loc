@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'meta',
                 //'tags',
                 // 'brand_id',
-
+                //'categorys.name',
                 'price',
                 // 'quantity',
                 // 'image',
@@ -80,11 +80,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
 
-                [
+                /*[
                     'attribute' => 'date_publish',
                     'format' => ['date', 'd.m.Y'],
                 ],
-
+                */
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'buttons' => [

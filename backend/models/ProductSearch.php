@@ -15,13 +15,14 @@ class ProductSearch extends Product
     /**
      * @inheritdoc
      */
+    public $category;
+
     public function rules()
     {
         return [
             [['id', 'brand_id', 'quantity', 'stock_status_id'], 'integer'],
-            [['name', 'description', 'meta', 'tags', 'sku', 'image', 'date_publish', 'date_update'], 'safe'],
+            [['name', 'description', 'meta', 'tags', 'sku', 'image', 'date_publish', 'date_update', 'category'], 'safe'],
             [['price'], 'number'],
-            //[['categoryName'], 'safe']
         ];
     }
 
@@ -68,6 +69,7 @@ class ProductSearch extends Product
             'stock_status_id' => $this->stock_status_id,
             'date_publish' => $this->date_publish,
             'date_update' => $this->date_update,
+            'product_category.category_id' => $this->category,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

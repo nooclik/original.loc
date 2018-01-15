@@ -261,9 +261,11 @@ a {cursor: pointer;}
       @include link;
     }
   }
+  .pagination, .summary {width: 100%; margin: 5px;}
 }
 
 //Items page
+
 @media (min-width: 992px) {
   .col-md-3 {
     width: 23.9%;

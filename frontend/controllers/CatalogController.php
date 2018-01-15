@@ -14,6 +14,8 @@ use common\models\Options;
 use common\models\Product;
 use common\models\ProductCategory;
 use common\models\Brand;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\web\Controller;
 use Yii;
 use yii\data\Pagination;
@@ -27,7 +29,7 @@ class CatalogController extends Controller
         }
         $sex = $this->findCategoryBySlug($slug);
 
-        if ($filter) {
+        /*if ($filter) {
             $model = Product::find()->joinWith('productCategory')
                 ->where(['category_id' => $this->findCategoryBySlug($slug)])
                 ->andWhere(['brand_id' => $post['filter_value']])
@@ -37,18 +39,24 @@ class CatalogController extends Controller
         else {
             $model = ProductCategory::find()->with('product')->where(['category_id' => $this->findCategoryBySlug($slug)]);
         }
-
+        */
         $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id WHERE p.id IN 
                                           (SELECT DISTINCT pc.product_id FROM product_category pc WHERE pc.category_id = :id) ORDER BY b.name')
             ->bindValue(':id', $this->findCategoryBySlug($slug))->queryAll();
 
-
+/*
         $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => Options::CountElementOnPage()]);
 
         $items = $model->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
-
+     */
+        $items = new ActiveDataProvider([
+            'query' => Product::find()->joinWith('productCategory')->where(['category_id' => $this->findCategoryBySlug($slug)]),
+            'pagination' => [
+                'pageSize' => Options::CountElementOnPage(),
+            ],
+        ]);
         return $this->render('category', compact('items', 'pages', 'filter_value', 'check_filter_value', 'slug', 'sex'));
     }
 
@@ -72,13 +80,20 @@ class CatalogController extends Controller
 
     public function actionSelective ()
     {
-        $items = Product::find()->where(['selective' => 1])->all();
+        $model = Product::find()->where(['selective' => 1]);
         $filter_value = Category::find()->select('id, name')->all();
 
         if ($post = Yii::$app->request->post()) {
-            $items = ProductCategory::find()->joinWith('product')->where(['category_id' => $post['filter_value'], 'product.selective' => 1])->all();
+            $model = ProductCategory::find()->joinWith('product')->where(['category_id' => $post['filter_value'], 'product.selective' => 1]);
             $check_filter_value = $post['filter_value'];
         }
+        $items = new ActiveDataProvider([
+            'query' => $model,
+            'pagination' => [
+                'pageSize' => Options::CountElementOnPage(),
+            ],
+        ]);
+
         return $this->render('selective', compact('items', 'filter_value', 'check_filter_value'));
     }
 
@@ -93,12 +108,21 @@ class CatalogController extends Controller
         $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, pc.category_id, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id LEFT JOIN product_category pc ON pc.product_id = p.id  WHERE p.id IN 
                                           (SELECT DISTINCT pc.product_id FROM product_category pc) ORDER BY b.name')
             ->queryAll();
-
+        /*
         $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => Options::CountElementOnPage(),]);
         $items = $model->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
+        */
+        $items =  new ActiveDataProvider (
+            [
+                'query' => $model,
+                'pagination' => [
+                    'pageSize' => Options::CountElementOnPage(),
+                ],
 
+            ]
+        );
         return $this->render('brand', compact('items', 'pages', 'filter_value'));
     }
 

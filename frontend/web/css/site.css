@@ -215,6 +215,9 @@ a {
   color: #333; }
 #items .item a:hover {
   color: #c3002f; }
+#items .pagination, #items .summary {
+  width: 100%;
+  margin: 5px; }
 
 @media (min-width: 992px) {
   .col-md-3 {

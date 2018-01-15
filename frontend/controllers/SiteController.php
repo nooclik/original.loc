@@ -1,9 +1,11 @@
 <?php
+
 namespace frontend\controllers;
 
 use common\models\Product;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -74,8 +76,17 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $indexArray = Yii::$app->db->createCommand('SELECT DISTINCT LEFT(name, 1) AS name FROM product ORDER BY name')->queryColumn();
+
+        $items = new ActiveDataProvider(
+            [
+                'query' => Product::find()->orderBy(['date_publish' => SORT_DESC])->limit(8),
+                'pagination' => [
+                    'pageSize' => 8,
+                ],
+            ]
+        );
         $this->layout = 'home-page';
-        return $this->render('index', compact('indexArray'));
+        return $this->render('index', compact('indexArray', 'items'));
     }
 
     /**

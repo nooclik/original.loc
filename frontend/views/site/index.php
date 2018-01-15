@@ -4,6 +4,7 @@ use common\models\Product;
 use common\models\Carousel as Slider;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 
@@ -46,8 +47,19 @@ $this->title = 'Оригинал - и только';
     <div class="block_title">
         <h3>Новинки товара</h3>
     </div>
-    <?php $items = Product::find()->orderBy(['date_publish' => SORT_DESC])->limit(8)->all(); ?>
-    <?= $this->render('/catalog/_items', compact('items')) ?>
+    <?php ?>
+    <?=
+    ListView::widget([
+        'dataProvider' => $items,
+        'itemView' => '/catalog/_items',
+        'options' => ['id' => 'items', 'class' => 'list-view'],
+        'itemOptions' => [
+            'tag' => 'div',
+            'class' => 'item col-md-3',
+        ],
+        'layout' => '{items}',
+    ]);
+    ?>
 </div>
 
 <div class="container">
