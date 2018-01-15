@@ -72,6 +72,12 @@ a.desc:after {
   padding: 15px;
   border: none; }
 
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+  background-color: #c3002f; }
+
+.navbar-brand {
+  color: #ffffff !important; }
+
 @media (max-width: 767px) {
   .nav li > form > button.logout {
     display: block;
@@ -83,6 +89,9 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
   outline: none; }
+
+.jumbotron {
+  padding-bottom: 0px; }
 
 /* My style*/
 :before {
@@ -218,6 +227,12 @@ a {
 #items .pagination, #items .summary {
   width: 100%;
   margin: 5px; }
+#items .pagination > .active > a {
+  background-color: #c3002f;
+  border-color: #a70028;
+  color: #ffffff; }
+#items .pagination > li > a {
+  color: #333; }
 
 @media (min-width: 992px) {
   .col-md-3 {
@@ -328,5 +343,13 @@ a {
   width: 60px; }
 #order table {
   font-size: 16px; }
+
+#message-box {
+  position: fixed;
+  bottom: 0;
+  padding: 10px;
+  background-color: #c3002f;
+  width: 100%;
+  color: #ffffff; }
 
 /*# sourceMappingURL=site.css.map */

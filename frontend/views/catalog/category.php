@@ -18,7 +18,7 @@ $filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request-
 ?>
     <div class="row">
         <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url', 'sex')) ?>
-        <?php Pjax::begin(['enablePushState' => false]); ?>
+        <?php //Pjax::begin(['enablePushState' => false]); ?>
         <div class="col-md-10">
             <?=
             ListView::widget([
@@ -39,7 +39,7 @@ $filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request-
             ]);
             ?>
         </div>
-        <?php Pjax::end(); ?>
+        <?php //Pjax::end(); ?>
     </div>
 <?php
 

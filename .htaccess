@@ -21,3 +21,7 @@ RewriteCond %{REQUEST_URI} ^/backend/web
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /backend/web/index.php
+
+php_value display_errors 1
+php_value display_startup_errors 1
+php_value error_reporting E_ALL

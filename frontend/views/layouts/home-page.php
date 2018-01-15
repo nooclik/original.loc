@@ -23,22 +23,27 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="conainer">
 
-    <?= $this->render('menu') ?>
+
+<?= $this->render('menu') ?>
+
+<?= Breadcrumbs::widget([
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+]) ?>
+<?= Alert::widget() ?>
+<div class="wrap">
+    <?= $content ?>
+    <div id="message-box">
+        <h4>
+            Сайт находится в разработке, заказы не принимаются!
+        </h4>
+    </div>
 </div>
-    <?= Breadcrumbs::widget([
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-    ]) ?>
-    <?= Alert::widget() ?>
-
-<?= $content ?>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; sMy Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; Оригинал.бел <?= date('Y') ?></p>
+        <p class="pull-right"></p>
     </div>
 </footer>
 

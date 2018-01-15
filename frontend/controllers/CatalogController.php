@@ -105,7 +105,7 @@ class CatalogController extends Controller
         else  {
             $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug)]);
         }
-        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, pc.category_id, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id LEFT JOIN product_category pc ON pc.product_id = p.id  WHERE p.id IN 
+        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id LEFT JOIN product_category pc ON pc.product_id = p.id  WHERE p.id IN 
                                           (SELECT DISTINCT pc.product_id FROM product_category pc) ORDER BY b.name')
             ->queryAll();
         /*

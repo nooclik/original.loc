@@ -24,45 +24,47 @@ $this->title = 'Оригинал - и только';
     }
     ?>
 </div>
-
 <div class="container">
-    <div class="block_title">
-        <h3>Селективная
-            парфюмерия <?= Html::a('смотреть все', Url::to(['catalog/selective']), ['class' => 'all_product']) ?></h3>
-    </div>
-    <?php
-    $model = Product::find()->select('image, name, slug')->where(['selective' => 1])->all();
-    echo \frontend\widgets\slick\SlickWidget::widget(
-        [
-            'items' => $model,
-            'options' =>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block_title">
+                <h3>Селективная
+                    парфюмерия <?= Html::a('смотреть все', Url::to(['catalog/selective']), ['class' => 'all_product']) ?></h3>
+            </div>
+            <?php
+            $model = Product::find()->select('image, name, slug')->where(['selective' => 1])->all();
+            echo \frontend\widgets\slick\SlickWidget::widget(
                 [
-                    'slidesToShow' => '4',
+                    'items' => $model,
+                    'options' =>
+                        [
+                            'slidesToShow' => '4',
+                        ]
                 ]
-        ]
-    ); ?>
-</div>
-
-<div class="container">
-    <div class="block_title">
-        <h3>Новинки товара</h3>
+            ); ?>
+        </div>
     </div>
-    <?php ?>
-    <?=
-    ListView::widget([
-        'dataProvider' => $items,
-        'itemView' => '/catalog/_items',
-        'options' => ['id' => 'items', 'class' => 'list-view'],
-        'itemOptions' => [
-            'tag' => 'div',
-            'class' => 'item col-md-3',
-        ],
-        'layout' => '{items}',
-    ]);
-    ?>
-</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block_title">
+                <h3>Новинки товара</h3>
+            </div>
+            <?php ?>
+            <?=
+            ListView::widget([
+                'dataProvider' => $items,
+                'itemView' => '/catalog/_items',
+                'options' => ['id' => 'items', 'class' => 'list-view'],
+                'itemOptions' => [
+                    'tag' => 'div',
+                    'class' => 'item col-md-3 col-xs-12',
+                ],
+                'layout' => '{items}',
+            ]);
+            ?>
+        </div>
+    </div>
 
-<div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="block_title">
