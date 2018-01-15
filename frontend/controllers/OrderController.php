@@ -27,6 +27,7 @@ class OrderController extends Controller
         if ($post = Yii::$app->request->post()) {
             $order->quantity = $post['quantity'];
             $order->price = $model['price'];
+            $order->contact_info = serialize($post['contact']);
             $order->save();
         }
 

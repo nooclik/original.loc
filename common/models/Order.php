@@ -16,6 +16,7 @@ use yii\db\Expression;
  * @property string $date_publish
  * @property string $date_update
  * @property integer $user_id
+ * @property string $contact_info
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -36,7 +37,7 @@ class Order extends \yii\db\ActiveRecord
             [['product_id', 'quantity', 'user_id'], 'integer'],
             [['price'], 'number'],
             [['date_publish', 'date_update'], 'safe'],
-            [['variation_id'], 'string', 'max' => 255],
+            [['variation_id', 'contact_info'], 'string', 'max' => 255],
         ];
     }
 

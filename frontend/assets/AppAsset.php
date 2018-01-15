@@ -15,7 +15,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-    	//'js/jquery.parallax.js',
+    	'js/jquery.mask.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
