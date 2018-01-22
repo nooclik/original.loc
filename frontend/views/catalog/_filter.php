@@ -6,32 +6,52 @@
  * Time: 14:43
  */
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
 
-$filter_title = Бренд;
 ?>
 
-<aside class="col-md-2" id="filter">
-    <?= Html::beginForm(Url::toRoute([$filter_route, 'slug' => $slug]), 'post', ['data-pjax' => '', 'class' => 'form-inline']) ?>
-    <h3><?= $filter_title ?>
-        <?php if ($check_filter_value) : ?>
-            <span class="clear_filter" data-toggle="tooltip" data-placement="right"
-                  title="Сбросить фильтр"><?= Html::a('<i class="fa fa-times" aria-hidden="true"></i>', $filter_request_url) ?></span>
-        <?php endif; ?>
-    </h3>
-    <ul>
-        <?php foreach ($filter_value as $filter) : ?>
-            <li><?= Html::a($filter['name'], ['catalog/brand', 'slug' => $filter['slug'], 'sex' => $sex]) ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <!--
-<?= Html::checkboxList('filter_value', $check_filter_value, ArrayHelper::map($filter_value, 'id', 'name')); ?>
--->
-    <!--
-<div class="form-group">
-    <?= Html::submitButton('Отобрать', ['class' => 'btn btn-sm btn-primary']) ?>
+<div class="product-search">
+
+    <?php $form = ActiveForm::begin([
+        'action' => Url::to(['category', 'slug' => $slug]),
+        'method' => 'get',
+        'options' => ['data-pjax' => true]
+    ]); ?>
+
+
+    <?= $form->field($model, 'name')->input('text', ['placeholder' => 'Введите текст для поиска']) ?>
+
+    <?= $form->field($model, 'brand_id')->widget(Select2::classname(), [
+        'data' => $brand,
+        'options' => ['placeholder' => 'Выберите категорию...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
+
+    <?php // echo $form->field($model, 'brand_id') ?>
+
+    <?php // echo $form->field($model, 'sku') ?>
+
+    <?php // echo $form->field($model, 'price') ?>
+
+    <?php // echo $form->field($model, 'quantity') ?>
+
+    <?php // echo $form->field($model, 'image') ?>
+
+    <?php // echo $form->field($model, 'stock_status_id') ?>
+
+    <?php // echo $form->field($model, 'date_publish') ?>
+
+    <?php // echo $form->field($model, 'date_update') ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Отобрать', ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('X', Url::to(['category', 'slug' => $slug]), ['class' => 'btn btn-default']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
 </div>
--->
-    <?= Html::endForm() ?>
-</aside>

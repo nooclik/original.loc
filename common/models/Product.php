@@ -94,7 +94,7 @@ class Product extends \yii\db\ActiveRecord
             'description' => 'Описание',
             'meta' => 'Meta',
             'tags' => 'Тэги',
-            'brand_id' => 'Брэнд',
+            'brand_id' => 'Бренд',
             'sku' => 'Артикул',
             'price' => 'Цена',
             'quantity' => 'Количество',
@@ -114,7 +114,8 @@ class Product extends \yii\db\ActiveRecord
             ->viaTable('product_category', ['product_id' => 'id']);
     }
 
-    public function getProductCategory () {
+    public function getProductCategory()
+    {
         return $this->hasOne(ProductCategory::className(), ['product_id' => 'id']);
     }
 
@@ -154,9 +155,14 @@ class Product extends \yii\db\ActiveRecord
 
     public function getVariation()
     {
-
         return $this->hasMany(Variation::className(), ['id' => 'variation_id'])
             ->viaTable('product_variation', ['product_id' => 'id']);
+    }
+
+    public function getAttribut()
+    {
+        return $this->hasMany(Attribute::className(), ['id' => 'attribut_id'])
+            ->viaTable('product_attribut', ['product_id' => 'id']);
     }
 
     public function getStatus()
@@ -175,13 +181,14 @@ class Product extends \yii\db\ActiveRecord
         $attributes = Yii::$app->db->createCommand('SELECT DISTINCT (pa.attribut_id), a.name FROM product_attribut pa LEFT JOIN attribute a ON  pa.attribut_id = a.id WHERE product_id = :product_id')
             ->bindValue(':product_id', $id)->queryAll();
         foreach ($attributes as $attribute) {
-           $all[$attribute['name']] = implode(', ', Yii::$app->db->createCommand('select av.name from product_attribut pa LEFT JOIN attribute_value av ON pa.attribu_value_id = av.id WHERE pa.product_id = :product_id AND pa.attribut_id = :attribut_id')
+            $all[$attribute['name']] = implode(', ', Yii::$app->db->createCommand('select av.name from product_attribut pa LEFT JOIN attribute_value av ON pa.attribu_value_id = av.id WHERE pa.product_id = :product_id AND pa.attribut_id = :attribut_id')
                 ->bindValue(':attribut_id', $attribute['attribut_id'])->bindValue(':product_id', $id)->queryColumn());
         }
         return $all;
     }
 
-    public static function loadVariation ($id) {
+    public static function loadVariation($id)
+    {
         $variations = Yii::$app->db->createCommand('SELECT * FROM product_variation pv LEFT JOIN variation v ON pv.variation_id = v.id WHERE pv.product_id = :product_id')
             ->bindValue(':product_id', $id)->queryAll();
         return $variations;

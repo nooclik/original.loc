@@ -144,6 +144,11 @@ a.desc:after {
   background-color: #c3002f;
 }
 
+.select2-container--krajee .select2-results__option--highlighted[aria-selected]{
+  background-color: $link-hover-color;
+  color: #fff;
+}
+
 .navbar-brand {
   color: #ffffff !important
 }
@@ -283,12 +288,14 @@ a {
     width: 100%;
     margin: 5px;
   }
-  .pagination > .active > a{
+  .pagination > .active > a {
     background-color: #c3002f;
     border-color: #a70028;
     color: #ffffff;
   }
-  .pagination > li > a {color: #333;}
+  .pagination > li > a {
+    color: #333;
+  }
 }
 
 //Items page
@@ -296,6 +303,9 @@ a {
 @media (min-width: 992px) {
   .col-md-3 {
     width: 23.9%;
+  }
+  .col-md-4 {
+    width: 32.1%;
   }
 }
 
@@ -362,6 +372,7 @@ a {
       @include link;
     }
   }
+
 }
 
 //Filter
@@ -424,4 +435,22 @@ a {
   background-color: #c3002f;
   width: 100%;
   color: #ffffff;
+}
+
+//Scrollbar
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c3002f;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: #c3002f;
 }

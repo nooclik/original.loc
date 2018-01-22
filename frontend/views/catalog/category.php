@@ -16,18 +16,25 @@ $filter_title = 'Брэнд';
 $filter_rout = 'catalog/category';
 $filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request->get('slug')]);
 ?>
+
+<?php Pjax::begin(); ?>
     <div class="row">
-        <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url', 'sex')) ?>
-        <?php //Pjax::begin(['enablePushState' => false]); ?>
-        <div class="col-md-10">
+        <div class="col-md-3" id="filter">
+            <?= $this->render('_filter', [
+                'model' => $modelSearch,
+                'slug' => $slug,
+                'brand' => $brand,
+            ]) ?>
+        </div>
+        <div class="col-md-9">
             <?=
             ListView::widget([
-                'dataProvider' => $items,
+                'dataProvider' => $dataProvider,
                 'options' => ['id' => 'items', 'class' => 'list-view row'],
                 'itemView' => '_items',
                 'itemOptions' => [
                     'tag' => 'div',
-                    'class' => 'item col-md-3 col-xs-12',
+                    'class' => 'item col-md-4 col-xs-12',
                 ],
                 'pager' => [
                     'firstPageLabel' => '<<',
@@ -36,12 +43,13 @@ $filter_request_url = Url::to(['catalog/category', 'slug' => Yii::$app->request-
                     'prevPageLabel' => '<',
                     'maxButtonCount' => 10,
                 ],
+                'layout' => "{items}\n{pager}",
             ]);
             ?>
         </div>
-        <?php //Pjax::end(); ?>
+
     </div>
-<?php
+<?php Pjax::end();
 
 $this->registerJS('
 $(document).on("pjax:send", function() {

@@ -15,10 +15,10 @@ use common\models\Product;
 use common\models\ProductCategory;
 use common\models\Brand;
 use yii\data\ActiveDataProvider;
-use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use Yii;
-use yii\data\Pagination;
+use frontend\models\ProductSearch;
 
 class CatalogController extends Controller
 {
@@ -29,35 +29,14 @@ class CatalogController extends Controller
         }
         $sex = $this->findCategoryBySlug($slug);
 
-        /*if ($filter) {
-            $model = Product::find()->joinWith('productCategory')
-                ->where(['category_id' => $this->findCategoryBySlug($slug)])
-                ->andWhere(['brand_id' => $post['filter_value']])
-                ;
-            $check_filter_value = $post['filter_value'];
-        }
-        else {
-            $model = ProductCategory::find()->with('product')->where(['category_id' => $this->findCategoryBySlug($slug)]);
-        }
-        */
-        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id WHERE p.id IN 
-                                          (SELECT DISTINCT pc.product_id FROM product_category pc WHERE pc.category_id = :id) ORDER BY b.name')
-            ->bindValue(':id', $this->findCategoryBySlug($slug))->queryAll();
+        $modelSearch = new ProductSearch();
+        $brand = ArrayHelper::map(
+            Product::find()->select('brand_id as id, brand.name as name')->distinct()->joinWith('brand')->joinWith('categorys')
+                ->where(['product_category.category_id' => $this->findCategoryBySlug($slug)])->all(), 'id', 'name'
+        );
+        $dataProvider = $modelSearch->search(Yii::$app->request->queryParams, $slug, $where = 'category.slug');
 
-/*
-        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => Options::CountElementOnPage()]);
-
-        $items = $model->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
-     */
-        $items = new ActiveDataProvider([
-            'query' => Product::find()->joinWith('productCategory')->where(['category_id' => $this->findCategoryBySlug($slug)]),
-            'pagination' => [
-                'pageSize' => Options::CountElementOnPage(),
-            ],
-        ]);
-        return $this->render('category', compact('items', 'pages', 'filter_value', 'check_filter_value', 'slug', 'sex'));
+        return $this->render('category', compact('modelSearch', 'dataProvider', 'slug', 'brand'));
     }
 
     public function actionProduct($slug)

@@ -1,7 +1,8 @@
 <?php
 
-namespace backend\models;
+namespace frontend\models;
 
+use common\models\Options;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -15,7 +16,7 @@ class ProductSearch extends Product
     /**
      * @inheritdoc
      */
-    public $category;
+    public $brand;
 
     public function rules()
     {
@@ -42,14 +43,17 @@ class ProductSearch extends Product
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $slug, $where)
     {
-        $query = Product::find()->joinWith('categorys');
+        $query = Product::find()->joinWith('categorys')->where([$where => $slug]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => Options::CountElementOnPage(),
+            ]
         ]);
 
         $this->load($params);
@@ -72,7 +76,7 @@ class ProductSearch extends Product
             'product_category.category_id' => $this->category,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'product.name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'meta', $this->meta])
             ->andFilterWhere(['like', 'tags', $this->tags])

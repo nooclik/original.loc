@@ -49,14 +49,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'format' => 'raw',
                 ],
-                //'description',
-                //'meta',
-                //'tags',
-                // 'brand_id',
-                //'categorys.name',
+
+                [
+                    'attribute' => 'category',
+                    'filter' =>
+                        [
+                            2 => 'Женские',
+                            3 => 'Мужские',
+                            4 => 'Унисекс',
+                        ],
+                    'value' => categoryName,
+                ],
                 'price',
-                // 'quantity',
-                // 'image',
                 [
                     'attribute' => 'stock_status_id',
                     'filter' =>
