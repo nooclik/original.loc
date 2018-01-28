@@ -17,29 +17,36 @@ $filter_request_url = Url::to(['catalog/selective']);
 ?>
 
 <?php Pjax::begin() ?>
-<div class="row">
+    <div class="row">
 
-    <?= $this->render('_filter', compact('slug', 'check_filter_value', 'filter_value', 'filter_title', 'filter_rout', 'filter_request_url')) ?>
+        <div class="col-md-3" id="filter">
+            <?= $this->render('_filter-selective',
+                [
+                    'model' => $modelSearch,
+                    'minPrice' => $minPrice,
+                    'maxPrice' => $maxPrice,
+                ]); ?>
+        </div>
 
-    <div class="col-md-10">
-        <?=
-        ListView::widget([
-            'dataProvider' => $items,
-            'options' => ['id' => 'items', 'class' => 'list-view row'],
-            'itemView' => '_items',
-            'itemOptions' => [
-                'tag' => 'div',
-                'class' => 'item col-md-3 col-xs-12',
-            ],
-            'pager' => [
-                'firstPageLabel' => '<<',
-                'lastPageLabel' => '>>',
-                'nextPageLabel' => '>',
-                'prevPageLabel' => '<',
-                'maxButtonCount' => 10,
-            ],
-        ]);
-        ?>
+        <div class="col-md-9">
+            <?= ListView::widget([
+                'dataProvider' => $dataProvider,
+                'options' => ['id' => 'items', 'class' => 'list-view row'],
+                'itemView' => '_items',
+                'itemOptions' => [
+                    'tag' => 'div',
+                    'class' => 'item col-md-4 col-xs-12',
+                ],
+                'layout' => "{items}\n{pager}",
+                'pager' => [
+                    'firstPageLabel' => '<<',
+                    'lastPageLabel' => '>>',
+                    'nextPageLabel' => '>',
+                    'prevPageLabel' => '<',
+                    'maxButtonCount' => 10,
+                ],
+            ]);
+            ?>
+        </div>
     </div>
-</div>
 <?php Pjax::end();

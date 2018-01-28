@@ -144,7 +144,7 @@ a.desc:after {
   background-color: #c3002f;
 }
 
-.select2-container--krajee .select2-results__option--highlighted[aria-selected]{
+.select2-container--krajee .select2-results__option--highlighted[aria-selected] {
   background-color: $link-hover-color;
   color: #fff;
 }
@@ -372,7 +372,9 @@ a {
       @include link;
     }
   }
-
+  .form-group {
+    margin-bottom: 0px;
+  }
 }
 
 //Filter

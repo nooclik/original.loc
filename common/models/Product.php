@@ -105,6 +105,8 @@ class Product extends \yii\db\ActiveRecord
             'date_publish' => 'Создано',
             'date_update' => 'Обновлено',
             'categoryName' => 'Категория',
+            'minPrice' => 'Минимальная цена',
+            'maxPrice' => 'Максимальная цена',
         ];
     }
 

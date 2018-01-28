@@ -310,6 +310,8 @@ a {
   color: #333; }
 #filter ul a:hover {
   color: #c3002f; }
+#filter .form-group {
+  margin-bottom: 0px; }
 
 #product a {
   text-decoration: none;

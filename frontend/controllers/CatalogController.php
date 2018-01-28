@@ -12,22 +12,19 @@ namespace frontend\controllers;
 use common\models\Category;
 use common\models\Options;
 use common\models\Product;
-use common\models\ProductCategory;
+use frontend\models\SelectiveSearch;
 use common\models\Brand;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use Yii;
 use frontend\models\ProductSearch;
+use frontend\models\BrandSearch;
 
 class CatalogController extends Controller
 {
     public function actionCategory($slug)
     {
-        if ($post = Yii::$app->request->post()) {
-            $filter = true;
-        }
-        $sex = $this->findCategoryBySlug($slug);
 
         $modelSearch = new ProductSearch();
         $brand = ArrayHelper::map(
@@ -45,67 +42,57 @@ class CatalogController extends Controller
         return $this->render('product', compact('model', 'slug'));
     }
 
-    public function actionBrands (){
+    public function actionBrands()
+    {
 
         if (!$index = Yii::$app->request->get('index')) {
             $model = Product::find()->select('product.brand_id, brand.name, brand.image, brand.description, brand.slug')->distinct()->joinWith('brand')->all();
-        }
-        else {
+        } else {
             $model = Product::find()->select('product.brand_id, brand.name, brand.image, brand.description, brand.slug')->distinct()
-                ->where(['like', 'brand.name', $index.'%', false])->joinWith('brand')->all();
+                ->where(['like', 'brand.name', $index . '%', false])->joinWith('brand')->all();
         }
         return $this->render('brands', compact('model'));
     }
 
-    public function actionSelective ()
+    public function actionSelective()
     {
-        $model = Product::find()->where(['selective' => 1]);
-        $filter_value = Category::find()->select('id, name')->all();
+        $modelSearch = new SelectiveSearch();
+        $dataProvider = $modelSearch->search(Yii::$app->request->queryParams);
 
+        $minPrice = Product::find()->joinWith('variation')
+            ->where(['product.selective' => true])->min('product_variation.price');
+
+        $maxPrice = Product::find()->joinWith('variation')
+            ->where(['product.selective' => true])->max('product_variation.price');
+
+        return $this->render('selective', compact('modelSearch', 'dataProvider', 'minPrice', 'maxPrice'));
+    }
+
+    public function actionTotalCount(){
         if ($post = Yii::$app->request->post()) {
-            $model = ProductCategory::find()->joinWith('product')->where(['category_id' => $post['filter_value'], 'product.selective' => 1]);
-            $check_filter_value = $post['filter_value'];
+            $count = Product::find()->joinWith('categorys')
+                ->where(['product.brand_id'=>$post['id'], 'product_category.category_id' => $this->findCategoryBySlug($post['slug'])])->count();
+            return $count;
         }
-        $items = new ActiveDataProvider([
-            'query' => $model,
-            'pagination' => [
-                'pageSize' => Options::CountElementOnPage(),
-            ],
-        ]);
-
-        return $this->render('selective', compact('items', 'filter_value', 'check_filter_value'));
     }
 
-    public function actionBrand($slug) {
+    public function actionBrand($slug)
+    {
+        $model = new BrandSearch();
+        $dataProvider = $model->search(Yii::$app->request->queryParams, $this->findBrandBySlug($slug));
 
-        if ($sex = Yii::$app->request->get('sex')) {
-            $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug), 'category_id' => $sex])->joinWith('productCategory');
-        }
-        else  {
-            $model = Product::find()->where(['brand_id' => $this->findBrandBySlug($slug)]);
-        }
-        $filter_value = Yii::$app->db->createCommand('SELECT DISTINCT (p.brand_id) AS id, b.name, b.slug FROM product p LEFT JOIN brand b ON p.brand_id = b.id LEFT JOIN product_category pc ON pc.product_id = p.id  WHERE p.id IN 
-                                          (SELECT DISTINCT pc.product_id FROM product_category pc) ORDER BY b.name')
-            ->queryAll();
-        /*
-        $pages = new Pagination(['totalCount' => $model->count(), 'defaultPageSize' => Options::CountElementOnPage(),]);
-        $items = $model->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
-        */
-        $items =  new ActiveDataProvider (
-            [
-                'query' => $model,
-                'pagination' => [
-                    'pageSize' => Options::CountElementOnPage(),
-                ],
+        $minPrice = Product::find()->joinWith('variation')
+            ->where(['product.brand_id' => $this->findBrandBySlug($slug)])->min('product_variation.price');
 
-            ]
-        );
-        return $this->render('brand', compact('items', 'pages', 'filter_value'));
+        $maxPrice = Product::find()->joinWith('variation')
+            ->where(['product.brand_id' => $this->findBrandBySlug($slug)])->max('product_variation.price');
+
+
+        return $this->render('brand', compact('model', 'dataProvider', 'slug', 'minPrice', 'maxPrice'));
+
     }
 
-    protected function findModelProductBySlug($slug)
+    private function findModelProductBySlug($slug)
     {
         if (($model = Product::findOne(['slug' => $slug])) !== null) {
             return $model;
@@ -114,17 +101,19 @@ class CatalogController extends Controller
         }
     }
 
-    protected function findCategoryBySlug($slug) {
+    private function findCategoryBySlug($slug)
+    {
         $category = Category::find()->where(['slug' => $slug])->one();
         return $category->id;
     }
 
-    protected function findBrandBySlug($slug) {
+    private function findBrandBySlug($slug)
+    {
         $brand = Brand::find()->where(['slug' => $slug])->one();
         return $brand->id;
     }
 
-    protected function findModelCategoryBySlug($slug)
+    private function findModelCategoryBySlug($slug)
     {
         if (($model = Category::findOne(['slug' => $slug])) !== null) {
             return $model;

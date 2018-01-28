@@ -11,18 +11,21 @@ use yii\widgets\Pjax;
 
 ?>
     <div class="row">
-            <?= $this->render('_filter', compact('filter_value')); ?>
         <?php Pjax::begin(); ?>
-        <div class="col-md-10">
+        <div class="col-md-3" id="filter">
+            <?= $this->render('_filter-brand', compact('model', 'slug', 'minPrice', 'maxPrice')); ?>
+        </div>
+        <div class="col-md-9">
             <?=
             ListView::widget([
-                'dataProvider' => $items,
+                'dataProvider' => $dataProvider,
                 'itemView' => '_items',
                 'options' => ['id' => 'items', 'class' => 'list-view row'],
                 'itemOptions' => [
                     'tag' => 'div',
-                    'class' => 'item col-md-3 col-xs-12',
+                    'class' => 'item col-md-4 col-xs-12',
                 ],
+                'layout' => "{items}\n{pager}",
                 'pager' => [
                     'firstPageLabel' => '<<',
                     'lastPageLabel' => '>>',
@@ -30,7 +33,6 @@ use yii\widgets\Pjax;
                     'prevPageLabel' => '<',
                     'maxButtonCount' => 10,
                 ],
-                'layout' => "{summary}\n{items}\n{pager}",
             ]);
             ?>
         </div>

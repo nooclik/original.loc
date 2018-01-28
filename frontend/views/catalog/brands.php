@@ -7,7 +7,7 @@
  */
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+$this->title = 'Бренды';
 ?>
 <div class="row" id="brands">
     <div class="col-md-12">

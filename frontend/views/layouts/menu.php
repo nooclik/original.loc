@@ -39,5 +39,6 @@ if (Yii::$app->user->isGuest) {
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => $menuItems,
+    'activateParents' => true,
 ]);
 NavBar::end();

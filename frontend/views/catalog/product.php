@@ -24,7 +24,7 @@ $variations = Product::loadVariation($model->id);
     <div class="row">
         <div class="col-md-3">
             <div class="thumbnail">
-                <?= Html::img(Product::getImage($model->image)) ?>
+                <?= Html::img(Product::getImage($model->image), ['class' => 'zoom-image', 'data-zoom-image' => Product::getImage($model->image)]) ?>
             </div>
         </div>
 
@@ -109,7 +109,7 @@ $variations = Product::loadVariation($model->id);
                         </thead>
                         <?php foreach ($variations as $variation): ?>
                             <tr>
-                                <td class="thumbnail"><?= $variation['image'] ? Html::img(Product::getImage($variation['image'])) : Html::img(Product::getImage($model->image)) ?></td>
+                                <td class="thumbnail"><?= $variation['image'] ? Html::img(Product::getImage($variation['image']), ['class' => 'zoom-image', 'data-zoom-image' => Product::getImage($variation['image'])]) : Html::img(Product::getImage($model->image), ['class' => 'zoom-image', 'data-zoom-image' => Product::getImage($model->image)]) ?></td>
                                 <td><?= Html::encode($variation['name']) ?></td>
                                 <td><?= Html::encode($variation['sku']) ?></td>
                                 <td><?= Html::encode($variation['quantity']) ?></td>
@@ -124,4 +124,7 @@ $variations = Product::loadVariation($model->id);
         </div>
     <?php endif; ?>
 </div>
-
+<?php
+$this->registerJS("
+    $('.zoom-image').elevateZoom();
+");

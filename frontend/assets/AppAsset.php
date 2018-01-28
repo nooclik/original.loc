@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
     	'js/jquery.mask.js',
+        'js/jquery.elevateZoom.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
